@@ -9,8 +9,8 @@ void main() async {
     exit(1);
   }
 
-  final server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
-  print('SERVER_STARTED: http://localhost:$port');
+  final server = await HttpServer.bind(InternetAddress.anyIPv4, port);
+  print('SERVER_STARTED: http://localhost:$port (and http://192.168.1.6:$port)');
 
   await for (HttpRequest request in server) {
     var path = request.uri.path;
