@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DB PDF Tools - Home Dashboard</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Roboto Flex Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "primary": "#004ac6",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#b4c5ff",
+            "primary-container": "#2563eb",
+            "on-primary-container": "#eeefff",
+            "on-secondary-fixed": "#0b1c30",
+            "tertiary-container": "#007f36",
+            "on-surface-variant": "#434655",
+            "on-error-container": "#93000a",
+            "secondary-container": "#d0e1fb",
+            "surface-dim": "#d3daef",
+            "on-secondary-container": "#54647a",
+            "background": "#f9f9ff",
+            "surface-container-low": "#f1f3ff",
+            "on-tertiary": "#ffffff",
+            "surface-tint": "#0053db",
+            "on-primary-fixed": "#00174b",
+            "primary-fixed": "#dbe1ff",
+            "secondary": "#505f76",
+            "tertiary-fixed-dim": "#62df7d",
+            "on-surface": "#141b2b",
+            "tertiary": "#006329",
+            "on-tertiary-fixed": "#002109",
+            "surface-container-highest": "#dce2f7",
+            "on-tertiary-fixed-variant": "#005320",
+            "inverse-primary": "#b4c5ff",
+            "inverse-surface": "#293040",
+            "secondary-fixed": "#d3e4fe",
+            "error": "#ba1a1a",
+            "on-tertiary-container": "#c7ffca",
+            "surface-container-lowest": "#ffffff",
+            "surface-bright": "#f9f9ff",
+            "on-background": "#141b2b",
+            "tertiary-fixed": "#7ffc97",
+            "error-container": "#ffdad6",
+            "on-error": "#ffffff",
+            "surface": "#f9f9ff",
+            "on-secondary": "#ffffff",
+            "surface-variant": "#dce2f7",
+            "outline-variant": "#c3c6d7",
+            "inverse-on-surface": "#edf0ff",
+            "surface-container-high": "#e1e8fd",
+            "on-secondary-fixed-variant": "#38485d",
+            "surface-container": "#e9edff",
+            "on-primary-fixed-variant": "#003ea8",
+            "secondary-fixed-dim": "#b7c8e1",
+            "outline": "#737686"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-sm": "0.5rem",
+            "margin-compact": "0.75rem",
+            "margin": "1rem",
+            "space-xl": "2rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem",
+            "gutter-compact": "0.75rem",
+            "gutter": "1rem",
+            "space-md": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Roboto Flex"],
+            "headline-lg-mobile": ["Roboto Flex"],
+            "body-lg": ["Roboto Flex"],
+            "label-sm": ["Roboto Flex"],
+            "body-md": ["Roboto Flex"],
+            "headline-md": ["Roboto Flex"],
+            "label-lg": ["Roboto Flex"],
+            "body-sm": ["Roboto Flex"],
+            "headline-sm": ["Roboto Flex"],
+            "label-md": ["Roboto Flex"]
+          },
+          "fontSize": {
+            "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+            "headline-lg-mobile": ["26px", { "lineHeight": "32px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.5px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface antialiased font-body-md min-h-screen flex flex-col items-center justify-start pb-24">
+<!-- Mobile Screen Frame Container (Centered for responsive presentation while mobile native) -->
+<div class="w-full max-w-md bg-background min-h-screen flex flex-col shadow-xl relative border-x border-outline-variant/30">
+<!-- Android Native Status Bar -->
+<header class="w-full h-8 px-4 flex items-center justify-between text-on-surface select-none pt-1">
+<span class="text-label-sm font-label-sm font-semibold tracking-tight">09:41</span>
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-[16px]">wifi</span>
+<span class="material-symbols-outlined text-[16px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-[18px]">battery_full</span>
+</div>
+</header>
+<!-- TopAppBar Component (from Shared JSON Anchors) -->
+<nav class="flex justify-between items-center w-full h-14 px-4 bg-surface dark:bg-surface shadow-sm dark:shadow-none border-b border-outline-variant dark:border-outline-variant sticky top-0 z-40">
+<div class="flex items-center gap-3">
+<!-- Brand Logo Embedded -->
+<div class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center bg-surface-container-lowest shadow-sm border border-outline-variant">
+<img alt="DB PDF Tools Logo" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XgAdpdBC08Yb6wuIyGlKIky1alnt4QZOVH8bPu06tTKJUh1UaG8Zb9vgr2O-yLRWLBrMaDQoXRKqN2YXZTl8VRMGLdVWZkB_pTwTGqekvUahS1-EgqYA75vWLEpTw3TDXPBtVS0W0Teg8D2qLatv730pomSMUx5GvwAGhkQknkFJlR35RXTLjlYjgqThkoBvpCP1PAXqbCoqo4cg7bNmCX80GurxzEwCzTgn6qupndXDlGl9m7kI0ikbQc"/>
+</div>
+<h1 class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-on-surface tracking-tight">DB PDF Tools</h1>
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Search documents" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors duration-150 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]">search</span>
+</button>
+<button aria-label="Notifications &amp; updates" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container dark:hover:bg-surface-container-high transition-colors duration-150 active:scale-95 transition-transform relative">
+<span class="material-symbols-outlined text-on-surface-variant text-[22px]">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 bg-error rounded-full ring-2 ring-surface"></span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 px-4 py-4 space-y-6">
+<!-- Greeting & Hero Section -->
+<section class="space-y-1">
+<h2 class="text-headline-md font-headline-md text-on-surface font-bold tracking-tight">All your documents, one place</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Read, convert, organize and manage PDFs.</p>
+</section>
+<!-- Quick Actions Grid (2x2 Prominent Bento Grid) -->
+<section aria-labelledby="quick-actions-title">
+<div class="flex items-center justify-between mb-2.5">
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold" id="quick-actions-title">Quick Actions</h3>
+<span class="text-label-md font-label-md text-primary font-medium flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[16px]">bolt</span> Instant
+          </span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- Scan Document (Fast OCR highlighted) -->
+<div class="relative p-3.5 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.05)] hover:bg-surface-container-low active:scale-95 transition-all duration-150 flex flex-col justify-between h-28 group cursor-pointer overflow-hidden" role="button" tabindex="0">
+<div class="absolute -right-2 -top-2 w-16 h-16 bg-primary-container/10 rounded-full blur-lg pointer-events-none"></div>
+<div class="flex items-start justify-between">
+<div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-[22px]">photo_camera</span>
+</div>
+<span class="px-2 py-0.5 bg-secondary-container text-primary font-label-sm text-label-sm rounded-full font-bold">Fast OCR</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block leading-tight">Scan Doc</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Camera to PDF</span>
+</div>
+</div>
+<!-- Image to PDF -->
+<div class="p-3.5 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.05)] hover:bg-surface-container-low active:scale-95 transition-all duration-150 flex flex-col justify-between h-28 cursor-pointer" role="button" tabindex="0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">image</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block leading-tight">Image to PDF</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">JPG, PNG to PDF</span>
+</div>
+</div>
+<!-- Merge PDF -->
+<div class="p-3.5 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.05)] hover:bg-surface-container-low active:scale-95 transition-all duration-150 flex flex-col justify-between h-28 cursor-pointer" role="button" tabindex="0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">call_merge</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block leading-tight">Merge PDF</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Combine multiple</span>
+</div>
+</div>
+<!-- Compress PDF -->
+<div class="p-3.5 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.05)] hover:bg-surface-container-low active:scale-95 transition-all duration-150 flex flex-col justify-between h-28 cursor-pointer" role="button" tabindex="0">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">compress</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface block leading-tight">Compress PDF</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Reduce file size</span>
+</div>
+</div>
+</div>
+</section>
+<!-- All Tools Section (3-column grid) -->
+<section aria-labelledby="all-tools-heading" class="space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold" id="all-tools-heading">All Tools</h3>
+<span class="px-2 py-0.5 bg-surface-container text-on-surface-variant font-label-sm text-label-sm rounded-full">12 Tools</span>
+</div>
+<button class="text-primary text-label-lg font-label-lg hover:underline flex items-center">
+            Categories
+            <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2.5">
+<!-- Tool 1: PDF Reader -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">PDF Reader</span>
+</button>
+<!-- Tool 2: PDF to Image -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">photo_library</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">PDF to Image</span>
+</button>
+<!-- Tool 3: Image to PDF -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">add_photo_alternate</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Image to PDF</span>
+</button>
+<!-- Tool 4: Merge PDF -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">call_merge</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Merge PDF</span>
+</button>
+<!-- Tool 5: Split PDF -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">call_split</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Split PDF</span>
+</button>
+<!-- Tool 6: Compress PDF -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">zoom_in_map</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Compress PDF</span>
+</button>
+<!-- Tool 7: Rotate PDF -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">rotate_right</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Rotate PDF</span>
+</button>
+<!-- Tool 8: Reorder Pages -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">low_priority</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Reorder Pages</span>
+</button>
+<!-- Tool 9: Extract Pages -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">filter_none</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Extract Pages</span>
+</button>
+<!-- Tool 10: Sign PDF -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">edit</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Sign PDF</span>
+</button>
+<!-- Tool 11: Protect PDF -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">lock</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Protect PDF</span>
+</button>
+<!-- Tool 12: Add Watermark -->
+<button class="p-2.5 bg-surface-container-lowest border border-outline-variant rounded-xl flex flex-col items-center text-center gap-2 hover:bg-surface-container-low active:scale-95 transition-all duration-150 shadow-sm">
+<div class="w-11 h-11 rounded-xl bg-secondary-container/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">branding_watermark</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface line-clamp-1">Add Watermark</span>
+</button>
+</div>
+</section>
+<!-- Recent Documents Section -->
+<section aria-labelledby="recent-docs-heading" class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="text-headline-sm font-headline-sm text-on-surface font-semibold" id="recent-docs-heading">Recent Documents</h3>
+<button class="text-primary text-label-lg font-label-lg font-medium hover:underline">View All</button>
+</div>
+<div class="space-y-2">
+<!-- Doc 1 -->
+<div class="p-3 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.05)] flex items-center justify-between hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-14 rounded-lg bg-surface-container-high border border-outline-variant/60 flex flex-col items-center justify-center relative shrink-0">
+<span class="material-symbols-outlined text-error text-[24px]">picture_as_pdf</span>
+<span class="absolute bottom-1 font-label-sm text-[9px] font-bold text-on-surface-variant">PDF</span>
+</div>
+<div class="min-w-0">
+<h4 class="text-headline-sm text-body-md font-headline-sm font-semibold text-on-surface truncate">Quarterly_Financial_Report_2025.pdf</h4>
+<div class="flex items-center gap-2 mt-0.5 text-body-sm font-body-sm text-on-surface-variant">
+<span>3.2 MB</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span>Opened 2 hours ago</span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-9 h-9 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-full shrink-0">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<!-- Doc 2 -->
+<div class="p-3 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.05)] flex items-center justify-between hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-14 rounded-lg bg-surface-container-high border border-outline-variant/60 flex flex-col items-center justify-center relative shrink-0">
+<span class="material-symbols-outlined text-error text-[24px]">picture_as_pdf</span>
+<span class="absolute bottom-1 font-label-sm text-[9px] font-bold text-on-surface-variant">PDF</span>
+</div>
+<div class="min-w-0">
+<h4 class="text-headline-sm text-body-md font-headline-sm font-semibold text-on-surface truncate">Signed_Lease_Agreement_v2.pdf</h4>
+<div class="flex items-center gap-2 mt-0.5 text-body-sm font-body-sm text-on-surface-variant">
+<span>1.8 MB</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span>Opened Yesterday</span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-9 h-9 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-full shrink-0">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+<!-- Doc 3 -->
+<div class="p-3 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0_1px_3px_0_rgba(15,23,42,0.05)] flex items-center justify-between hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3 min-w-0">
+<div class="w-11 h-14 rounded-lg bg-surface-container-high border border-outline-variant/60 flex flex-col items-center justify-center relative shrink-0">
+<span class="material-symbols-outlined text-error text-[24px]">picture_as_pdf</span>
+<span class="absolute bottom-1 font-label-sm text-[9px] font-bold text-on-surface-variant">PDF</span>
+</div>
+<div class="min-w-0">
+<h4 class="text-headline-sm text-body-md font-headline-sm font-semibold text-on-surface truncate">Travel_Itinerary_Tickets.pdf</h4>
+<div class="flex items-center gap-2 mt-0.5 text-body-sm font-body-sm text-on-surface-variant">
+<span>840 KB</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span>Opened Mar 12</span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-9 h-9 flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container rounded-full shrink-0">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Empty State Helper Banner / Tap Scan prompt -->
+<div class="p-3 bg-surface-container-low border border-dashed border-outline-variant rounded-xl flex items-center justify-between text-on-surface-variant">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[20px]">lightbulb</span>
+<span class="text-body-sm font-body-sm">No documents yet? Tap Scan to get started</span>
+</div>
+<button class="text-primary text-label-md font-label-md font-semibold hover:underline">Scan</button>
+</div>
+</section>
+<!-- AdMob Test Banner Area (320x50 Banner above BottomNavBar) -->
+<section aria-label="Advertisement" class="pt-2">
+<div class="w-full max-w-[320px] mx-auto h-[50px] bg-surface-container-highest/60 border border-outline-variant/70 rounded-md flex items-center justify-between px-3 text-on-surface-variant select-none">
+<div class="flex items-center gap-2">
+<span class="px-1.5 py-0.5 bg-outline-variant text-on-surface text-[10px] font-bold rounded">Ad</span>
+<span class="text-body-sm font-body-sm font-medium">Google AdMob</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant/80">320x50 Banner</span>
+</div>
+</section>
+</main>
+<!-- Contextual Extended FAB: Scan / Quick Import (Suppressed when not in top home dashboard context, but here it is home) -->
+<div class="fixed bottom-24 right-4 z-40 max-w-md w-full pointer-events-none flex justify-end pr-4">
+<button class="pointer-events-auto h-14 px-5 bg-primary-container text-on-primary rounded-2xl shadow-[0_4px_12px_0_rgba(37,99,235,0.28)] hover:bg-primary active:scale-95 transition-all duration-150 flex items-center gap-2.5 font-label-lg font-medium">
+<span class="material-symbols-outlined text-[24px]">add_a_photo</span>
+<span>Scan Doc</span>
+</button>
+</div>
+<!-- BottomNavBar Component (from Shared JSON Anchors) -->
+<!-- Screen intent: "Home" destination is active -->
+<nav class="fixed bottom-0 left-0 w-full z-50 h-20 flex justify-around items-center px-4 bg-surface-container-lowest dark:bg-surface-container-low shadow-[0_-1px_3px_0_rgba(15,23,42,0.05)] dark:shadow-none border-t border-outline-variant dark:border-outline-variant max-w-md mx-auto right-0">
+<!-- Destination 1: Home (Active based on screen intent) -->
+<button aria-current="page" class="flex flex-col items-center justify-center gap-1 bg-secondary-container dark:bg-secondary-container text-primary dark:text-primary rounded-full px-5 py-1 active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-label-sm font-label-sm">Home</span>
+</button>
+<!-- Destination 2: Files -->
+<button class="flex flex-col items-center justify-center gap-1 text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined text-[24px]">folder</span>
+<span class="text-label-sm font-label-sm">Files</span>
+</button>
+<!-- Destination 3: Tools -->
+<button class="flex flex-col items-center justify-center gap-1 text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined text-[24px]">build</span>
+<span class="text-label-sm font-label-sm">Tools</span>
+</button>
+<!-- Destination 4: Settings -->
+<button class="flex flex-col items-center justify-center gap-1 text-on-surface-variant dark:text-on-surface-variant px-5 py-1 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors duration-200 active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+<span class="text-label-sm font-label-sm">Settings</span>
+</button>
+</nav>
+</div>
+</body></html>
