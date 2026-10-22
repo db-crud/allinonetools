@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:path_provider/path_provider.dart';
 
 class FileSaver {
@@ -12,7 +13,9 @@ class FileSaver {
       Directory? baseDir;
       if (Platform.isAndroid) {
         // Try to save to Downloads or external storage directory if available
-        baseDir = await getExternalStorageDirectory() ?? await getApplicationDocumentsDirectory();
+        baseDir =
+            await getExternalStorageDirectory() ??
+            await getApplicationDocumentsDirectory();
       } else {
         baseDir = await getApplicationDocumentsDirectory();
       }
