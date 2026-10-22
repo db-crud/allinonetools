@@ -33,6 +33,11 @@ class ToolsView extends StatelessWidget {
             _findTool('tool-reader'),
             _findTool('tool-pdf2img'),
             _findTool('tool-img2pdf'),
+            _findTool('tool-jpg2pdf'),
+            _findTool('tool-png2pdf'),
+            _findTool('tool-pdf2word'),
+            _findTool('tool-pdf2excel'),
+            _findTool('tool-pdf2txt'),
           ]),
           const SizedBox(height: 20),
           _buildCategorySection(context, ToolCategory.organize, [
@@ -96,7 +101,7 @@ class ToolsView extends StatelessWidget {
                 onTap: () => ToolActionDialog.show(context, tool: tool, viewModel: viewModel),
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                   decoration: BoxDecoration(
                     color: AppColors.surfaceCard,
                     borderRadius: BorderRadius.circular(12),
@@ -106,15 +111,15 @@ class ToolsView extends StatelessWidget {
                   child: Row(
                     children: [
                       Container(
-                        width: 38,
-                        height: 38,
+                        width: 36,
+                        height: 36,
                         decoration: BoxDecoration(
                           color: AppColors.secondaryContainer.withValues(alpha: 0.4),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Icon(tool.icon, color: AppColors.primary, size: 20),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

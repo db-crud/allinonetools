@@ -13,35 +13,50 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoggedIn = viewModel.isAuthenticated;
+
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       children: [
         // Greeting & Hero Section
-        const Column(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'All your documents, one place',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: AppColors.onSurface,
-                letterSpacing: -0.4,
-                height: 1.25,
-              ),
-            ),
-            SizedBox(height: 4),
-            Text(
-              'Read, convert, organize and manage PDFs.',
-              style: TextStyle(
-                fontSize: 14,
-                color: AppColors.onSurfaceVariant,
-                height: 1.35,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isLoggedIn
+                        ? 'Hello, ${viewModel.currentUserName} 👋'
+                        : 'All your documents, one place',
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.onSurface,
+                      letterSpacing: -0.4,
+                      height: 1.25,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    isLoggedIn
+                        ? 'All conversion tools unlocked. Files auto-save to your account.'
+                        : 'Read, convert, organize and manage PDFs from local device.',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.onSurfaceVariant,
+                      height: 1.35,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 16),
+
 
         // Quick Actions Grid (2x2 Prominent Bento Grid)
         QuickActionsGrid(viewModel: viewModel),

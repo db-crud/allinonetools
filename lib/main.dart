@@ -10,14 +10,15 @@ import 'ui/shared/main_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Supabase backend
+  // Initialize Supabase Backend
   try {
     await Supabase.initialize(
       url: SupabaseConfig.supabaseUrl,
+      // ignore: deprecated_member_use
       anonKey: SupabaseConfig.supabaseAnonKey,
     );
-  } catch (_) {
-    // Graceful fallback for offline / test environments
+  } catch (e) {
+    debugPrint('Supabase initialization notice: $e');
   }
 
   // Set system UI overlay style
@@ -31,8 +32,6 @@ void main() async {
   );
 
   final pdfRepository = PdfRepository();
-  // Fetch cloud documents
-  await pdfRepository.syncWithSupabase();
   final homeViewModel = HomeViewModel(repository: pdfRepository);
 
   runApp(DbPdfToolsApp(viewModel: homeViewModel));

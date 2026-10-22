@@ -1,6 +1,6 @@
 {
-    "name": "db_pdf_tools",
-    "short_name": "db_pdf_tools",
+    "name": "DB PDF Tools",
+    "short_name": "DB PDF Tools",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

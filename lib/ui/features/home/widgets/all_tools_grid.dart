@@ -136,16 +136,22 @@ class AllToolsGrid extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               // Tool Title
-              Text(
-                tool.title,
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.onSurface,
-                  letterSpacing: -0.1,
+              SizedBox(
+                height: 32,
+                child: Center(
+                  child: Text(
+                    tool.title,
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.onSurface,
+                      letterSpacing: -0.1,
+                      height: 1.2,
+                    ),
+                  ),
                 ),
               ),
             ],

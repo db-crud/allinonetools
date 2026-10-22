@@ -7,7 +7,6 @@ import '../features/home/widgets/top_app_bar.dart';
 import '../features/scanner/views/scanner_modal.dart';
 import '../features/settings/views/settings_view.dart';
 import '../features/tools/views/tools_view.dart';
-import 'status_bar.dart';
 
 class MainScreen extends StatelessWidget {
   final HomeViewModel viewModel;
@@ -21,8 +20,7 @@ class MainScreen extends StatelessWidget {
       builder: (context, _) {
         return LayoutBuilder(
           builder: (context, constraints) {
-            // Adaptive container: on large screens center phone frame; on mobile full screen
-            final isWideScreen = constraints.maxWidth > 500;
+            final isWideScreen = constraints.maxWidth > 800;
 
             final content = Container(
               color: AppColors.background,
@@ -31,9 +29,6 @@ class MainScreen extends StatelessWidget {
                 bottom: false,
                 child: Column(
                   children: [
-                    // Simulated status bar on desktop/web
-                    if (isWideScreen) const SimulatedStatusBar(),
-
                     // Top App Bar (shown when on Home tab)
                     if (viewModel.selectedNavIndex == 0)
                       HomeTopAppBar(viewModel: viewModel),
@@ -60,7 +55,7 @@ class MainScreen extends StatelessWidget {
               body: Center(
                 child: Container(
                   constraints: BoxConstraints(
-                    maxWidth: isWideScreen ? 440 : double.infinity,
+                    maxWidth: isWideScreen ? 960 : double.infinity,
                   ),
                   decoration: BoxDecoration(
                     color: AppColors.background,

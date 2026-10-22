@@ -1,6 +1,10 @@
+import 'dart:io' as io;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../data/services/storage/file_saver.dart';
+import '../../../../domain/models/pdf_document.dart';
 import '../../home/view_models/home_view_model.dart';
 import '../../home/widgets/brand_logo.dart';
 import '../../reader/views/pdf_reader_modal.dart';
@@ -13,8 +17,8 @@ class FilesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final files = viewModel.allFiles;
-    final filters = ['All', 'Favorites', 'Finance', 'Contracts', 'Travel', 'Scanned'];
+    final recentFiles = viewModel.allRecentFiles;
+    final filters = ['All', 'Favorites', 'PDF', 'CSV', 'TXT', 'DOC'];
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -25,12 +29,19 @@ class FilesView extends StatelessWidget {
           children: [
             BrandLogo(size: 30),
             SizedBox(width: 10),
-            Text('My Files', style: AppTypography.headlineSm),
+            Text('Recent Files', style: AppTypography.headlineSm),
           ],
         ),
         actions: [
+          if (recentFiles.isNotEmpty)
+            TextButton.icon(
+              icon: const Icon(Icons.delete_sweep_outlined, size: 18, color: AppColors.error),
+              label: const Text('Clear', style: TextStyle(color: AppColors.error, fontSize: 13, fontWeight: FontWeight.w600)),
+              onPressed: () => _confirmClearHistory(context),
+            ),
           IconButton(
             icon: const Icon(Icons.add_a_photo_outlined, color: AppColors.primary),
+            tooltip: 'Scan New Document',
             onPressed: () => ScannerModal.show(context, viewModel: viewModel),
           ),
         ],
@@ -74,25 +85,38 @@ class FilesView extends StatelessWidget {
 
           // File List
           Expanded(
-            child: files.isEmpty
+            child: recentFiles.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.folder_open_rounded, size: 56, color: AppColors.outline.withValues(alpha: 0.5)),
                         const SizedBox(height: 12),
-                        const Text('No documents found', style: AppTypography.headlineSm),
+                        const Text('No recent files found', style: AppTypography.headlineSm),
                         const SizedBox(height: 4),
-                        const Text('Try changing filters or scanning a new PDF', style: AppTypography.bodySm),
+                        const Text('Files you process will appear here automatically', style: AppTypography.bodySm),
+                        const SizedBox(height: 16),
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          ),
+                          icon: const Icon(Icons.bolt, size: 18),
+                          label: const Text('Use a PDF Tool'),
+                          onPressed: () => viewModel.setNavIndex(2), // switch to tools
+                        ),
                       ],
                     ),
                   )
                 : ListView.separated(
                     padding: const EdgeInsets.all(16),
-                    itemCount: files.length,
+                    itemCount: recentFiles.length,
                     separatorBuilder: (_, index) => const SizedBox(height: 10),
                     itemBuilder: (context, index) {
-                      final file = files[index];
+                      final file = recentFiles[index];
+                      final isPdf = file.fileType.toUpperCase() == 'PDF';
+
                       return Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -110,8 +134,14 @@ class FilesView extends StatelessWidget {
                                 color: AppColors.surfaceContainerHigh,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: const Center(
-                                child: Icon(Icons.picture_as_pdf_rounded, color: AppColors.error, size: 24),
+                              child: Center(
+                                child: Icon(
+                                  file.fileType == 'CSV'
+                                      ? Icons.table_chart_rounded
+                                      : (file.fileType == 'TXT' ? Icons.text_snippet_rounded : Icons.picture_as_pdf_rounded),
+                                  color: isPdf ? AppColors.error : AppColors.primary,
+                                  size: 24,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -120,15 +150,15 @@ class FilesView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    file.title,
+                                    file.processedFileName,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: 3),
                                   Text(
-                                    '${file.sizeFormatted} • ${file.pageCount} pages • ${file.category}',
-                                    style: AppTypography.bodySm,
+                                    '${file.toolUsed} • ${file.fileSizeFormatted} • ${file.processedAtFormatted}',
+                                    style: AppTypography.bodySm.copyWith(fontSize: 12),
                                   ),
                                 ],
                               ),
@@ -141,14 +171,86 @@ class FilesView extends StatelessWidget {
                               onPressed: () => viewModel.toggleFavorite(file.id),
                             ),
                             IconButton(
+                              icon: const Icon(Icons.download_rounded, size: 20, color: AppColors.primary),
+                              tooltip: 'Download / Export',
+                              onPressed: () async {
+                                Uint8List? bytes = file.fileBytes;
+                                if (bytes == null && !kIsWeb && file.filePath != null) {
+                                  try {
+                                    final f = io.File(file.filePath!);
+                                    if (f.existsSync()) {
+                                      bytes = f.readAsBytesSync();
+                                    }
+                                  } catch (_) {}
+                                }
+
+                                if (bytes != null) {
+                                  await FileSaver.saveAndDownload(
+                                    bytes: bytes,
+                                    fileName: file.processedFileName,
+                                  );
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Downloading ${file.processedFileName}...')),
+                                    );
+                                  }
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('File ${file.processedFileName} saved at ${file.filePath ?? "local storage"}')),
+                                  );
+                                }
+                              },
+                            ),
+                            IconButton(
                               icon: const Icon(Icons.open_in_new_rounded, size: 20, color: AppColors.primary),
-                              onPressed: () => PdfReaderModal.show(context, document: file, viewModel: viewModel),
+                              tooltip: 'Open',
+                              onPressed: () {
+                                final doc = PdfDocument(
+                                  id: file.id,
+                                  title: file.processedFileName,
+                                  sizeFormatted: file.fileSizeFormatted,
+                                  lastOpenedFormatted: file.processedAtFormatted,
+                                  pageCount: file.pageCount,
+                                  category: file.toolUsed,
+                                  isFavorite: file.isFavorite,
+                                  updatedAt: file.processedAt,
+                                );
+                                PdfReaderModal.show(context, document: doc, viewModel: viewModel);
+                              },
                             ),
                           ],
                         ),
                       );
                     },
                   ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmClearHistory(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Clear All Recent Files?'),
+        content: const Text('This will remove all recent processed file entries from this device.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.error, foregroundColor: Colors.white),
+            onPressed: () {
+              viewModel.clearHistory();
+              Navigator.pop(ctx);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('History cleared')),
+              );
+            },
+            child: const Text('Clear All'),
           ),
         ],
       ),

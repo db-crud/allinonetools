@@ -12,8 +12,8 @@ class HomeTopAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      height: 58,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: const BoxDecoration(
         color: AppColors.surfaceCard,
         border: Border(
@@ -29,18 +29,24 @@ class HomeTopAppBar extends StatelessWidget {
   Widget _buildDefaultHeader(BuildContext context) {
     return Row(
       children: [
-        const BrandLogo(size: 34),
-        const SizedBox(width: 12),
+        // App Logo
+        const BrandLogo(size: 30),
+        const SizedBox(width: 10),
+
+        // App Title
         const Text(
           'DB PDF Tools',
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
             letterSpacing: -0.3,
             color: AppColors.onSurface,
           ),
         ),
+
         const Spacer(),
+
         // Search icon button
         IconButton(
           icon: const Icon(
@@ -48,39 +54,10 @@ class HomeTopAppBar extends StatelessWidget {
             size: 22,
             color: AppColors.onSurfaceVariant,
           ),
-          splashRadius: 20,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
           tooltip: 'Search tools & documents',
           onPressed: viewModel.toggleSearching,
-        ),
-        // Notifications icon button with badge
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            IconButton(
-              icon: const Icon(
-                Icons.notifications_outlined,
-                size: 22,
-                color: AppColors.onSurfaceVariant,
-              ),
-              splashRadius: 20,
-              tooltip: 'Notifications',
-              onPressed: () => _showNotificationsDialog(context),
-            ),
-            if (viewModel.unreadNotifications > 0)
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  width: 8,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: AppColors.error,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white, width: 1.5),
-                  ),
-                ),
-              ),
-          ],
         ),
       ],
     );
@@ -110,48 +87,6 @@ class HomeTopAppBar extends StatelessWidget {
           onPressed: viewModel.toggleSearching,
         ),
       ],
-    );
-  }
-
-  void _showNotificationsDialog(BuildContext context) {
-    viewModel.clearNotifications();
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Row(
-          children: [
-            Icon(Icons.notifications_active, color: AppColors.primary, size: 22),
-            SizedBox(width: 8),
-            Text('Notifications', style: AppTypography.headlineSm),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: AppColors.secondaryContainer.withValues(alpha: 0.4),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Icon(Icons.bolt, color: AppColors.primary, size: 20),
-              ),
-              title: const Text('Fast OCR Engine Ready', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-              subtitle: const Text('High accuracy scanner is now activated for all documents.', style: TextStyle(fontSize: 12)),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Close', style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600)),
-          ),
-        ],
-      ),
     );
   }
 }

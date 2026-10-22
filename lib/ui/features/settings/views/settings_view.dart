@@ -41,7 +41,7 @@ class _SettingsViewState extends State<SettingsView> {
           _buildSubscriptionCard(context),
           const SizedBox(height: 16),
 
-          // Supabase Cloud Status Card
+          // Supabase Authentication & Cloud Sync Card
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
@@ -58,21 +58,25 @@ class _SettingsViewState extends State<SettingsView> {
                     color: const Color(0xFF3ECF8E).withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(Icons.cloud_done_rounded, color: Color(0xFF3ECF8E), size: 20),
+                  child: const Icon(Icons.cloud_done_rounded, color: Color(0xFF10B981), size: 20),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Supabase Cloud Connected',
-                        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: AppColors.onSurface),
+                        widget.viewModel.isAuthenticated
+                            ? 'Supabase Auth: Signed in as ${widget.viewModel.currentUserName}'
+                            : 'Supabase Cloud Authentication Ready',
+                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: AppColors.onSurface),
                       ),
-                      SizedBox(height: 1),
+                      const SizedBox(height: 1),
                       Text(
-                        'Project: db-pdf-tools • Region: ap-south-1',
-                        style: TextStyle(fontSize: 11, color: AppColors.secondaryText),
+                        widget.viewModel.isAuthenticated
+                            ? widget.viewModel.currentUserEmail
+                            : 'Project: db-pdf-tools • Email OTP & Google OAuth',
+                        style: const TextStyle(fontSize: 11, color: AppColors.secondaryText),
                       ),
                     ],
                   ),
@@ -80,8 +84,8 @@ class _SettingsViewState extends State<SettingsView> {
                 Container(
                   width: 8,
                   height: 8,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF3ECF8E),
+                  decoration: BoxDecoration(
+                    color: widget.viewModel.isAuthenticated ? const Color(0xFF10B981) : const Color(0xFF3B82F6),
                     shape: BoxShape.circle,
                   ),
                 ),
