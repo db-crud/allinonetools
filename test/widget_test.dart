@@ -108,13 +108,13 @@ void main() {
     expect(find.text('Sign In Required'), findsNothing);
 
     // Verify tool action bottom sheet is displayed directly
-    expect(find.text('Process & Save'), findsOneWidget);
+    expect(find.text('Convert'), findsOneWidget);
     expect(find.text('Select Files from Device'), findsOneWidget);
 
     // Dismiss sheet
     await tester.tap(find.text('Cancel'));
     await tester.pumpAndSettle();
-    expect(find.text('Process & Save'), findsNothing);
+    expect(find.text('Convert'), findsNothing);
   });
 
   testWidgets('Clicking Scan Doc opens scanner modal directly without sign in guard', (WidgetTester tester) async {
@@ -137,6 +137,6 @@ void main() {
     expect(find.text('Sign In Required'), findsNothing);
 
     // Verify scanner modal appears directly
-    expect(find.text('Camera Scanner'), findsOneWidget);
+    expect(find.text('Document Scanner'), findsOneWidget);
   });
 }

@@ -671,7 +671,7 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
                 ),
                 icon: const Icon(Icons.bolt, size: 18),
                 label: const Text(
-                  'Process & Save',
+                  'Convert',
                   style: TextStyle(fontWeight: FontWeight.w700),
                 ),
                 onPressed: _executeProcessing,
@@ -798,7 +798,7 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
                   elevation: 0,
                 ),
                 icon: const Icon(Icons.download_rounded, size: 18),
-                label: const Text('Save to Device', style: TextStyle(fontWeight: FontWeight.w700)),
+                label: const Text('Download', style: TextStyle(fontWeight: FontWeight.w700)),
                 onPressed: () async {
                   final savedPath = await FileSaver.saveAndDownload(
                     bytes: result.bytes,
@@ -812,8 +812,8 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
                     SnackBar(
                       content: Text(
                         savedPath != null
-                            ? 'Saved ${result.fileName} to device successfully!'
-                            : 'Saving ${result.fileName}...',
+                            ? 'Downloaded ${result.fileName} successfully!'
+                            : 'Downloading ${result.fileName}...',
                       ),
                     ),
                   );

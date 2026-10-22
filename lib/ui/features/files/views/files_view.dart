@@ -26,10 +26,17 @@ class FilesView extends StatelessWidget {
         backgroundColor: AppColors.surfaceCard,
         elevation: 0,
         title: const Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             BrandLogo(size: 30),
             SizedBox(width: 10),
-            Text('Recent Files', style: AppTypography.headlineSm),
+            Flexible(
+              child: Text(
+                'Recent Files',
+                style: AppTypography.headlineSm,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
         actions: [
