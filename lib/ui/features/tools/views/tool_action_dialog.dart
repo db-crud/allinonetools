@@ -266,15 +266,6 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
 
       setState(() => _progress = 0.85);
 
-      // Save file to user device (Downloads or app documents)
-      final savedPath = await FileSaver.saveAndDownload(
-        bytes: result.bytes,
-        fileName: result.fileName,
-        mimeType: result.fileType == 'CSV'
-            ? 'text/csv'
-            : (result.fileType == 'TXT' ? 'text/plain' : 'application/pdf'),
-      );
-
       // Create history record for Recent Files
       final recentFile = RecentFile(
         id: 'proc-${DateTime.now().millisecondsSinceEpoch}',
@@ -285,7 +276,7 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
         fileType: result.fileType,
         fileSizeBytes: result.bytes.length,
         fileSizeFormatted: _formatFileSize(result.bytes.length),
-        filePath: savedPath,
+        filePath: null,
         userId: widget.viewModel.currentUser?.id ?? 'guest',
         pageCount: result.pageCount,
         isFavorite: false,
@@ -300,7 +291,7 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
         _progress = 1.0;
         _completed = true;
         _processedResult = result;
-        _savedLocation = savedPath;
+        _savedLocation = null;
       });
     } catch (e) {
       if (!mounted) return;
@@ -487,20 +478,21 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
                   ),
                 ),
                 const SizedBox(height: 14),
-                ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: AppColors.primary,
                     elevation: 0,
+                    side: const BorderSide(color: AppColors.primary, width: 1.2),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 11),
                   ),
-                  icon: const Icon(Icons.file_upload_outlined, size: 18),
+                  icon: const Icon(Icons.file_upload_outlined, size: 18, color: AppColors.primary),
                   label: Text(
                     _isMultiFileTool ? 'Browse Files' : 'Select File',
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                    style: const TextStyle(fontWeight: FontWeight.w700, color: AppColors.primary),
                   ),
                   onPressed: _pickFilesFromDevice,
                 ),
@@ -651,30 +643,40 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
             Expanded(
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppColors.onSurface,
                   padding: const EdgeInsets.symmetric(vertical: 13),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   side: const BorderSide(color: AppColors.outlineVariant),
+                  elevation: 0,
                 ),
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel', style: TextStyle(color: AppColors.onSurface, fontWeight: FontWeight.w600)),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(color: AppColors.onSurface, fontWeight: FontWeight.w600, fontSize: 14),
+                ),
               ),
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
+              child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppColors.primary,
                   padding: const EdgeInsets.symmetric(vertical: 13),
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  side: const BorderSide(color: AppColors.primary, width: 1.5),
                   elevation: 0,
                 ),
-                icon: const Icon(Icons.bolt, size: 18),
-                label: const Text(
-                  'Convert',
-                  style: TextStyle(fontWeight: FontWeight.w700),
-                ),
                 onPressed: _executeProcessing,
+                child: const Text(
+                  'Convert',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 15,
+                  ),
+                ),
               ),
             ),
           ],
@@ -789,16 +791,20 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
         Row(
           children: [
             Expanded(
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppColors.primary,
+                  padding: const EdgeInsets.symmetric(vertical: 13),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  side: const BorderSide(color: AppColors.primary, width: 1.5),
                   elevation: 0,
                 ),
-                icon: const Icon(Icons.download_rounded, size: 18),
-                label: const Text('Download', style: TextStyle(fontWeight: FontWeight.w700)),
+                icon: const Icon(Icons.download_rounded, size: 18, color: AppColors.primary),
+                label: const Text(
+                  'Download',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: AppColors.primary),
+                ),
                 onPressed: () async {
                   final savedPath = await FileSaver.saveAndDownload(
                     bytes: result.bytes,
@@ -808,12 +814,25 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
                         : (result.fileType == 'TXT' ? 'text/plain' : 'application/pdf'),
                   );
                   if (!mounted) return;
+                  setState(() {
+                    _savedLocation = savedPath;
+                  });
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(
-                        savedPath != null
-                            ? 'Downloaded ${result.fileName} successfully!'
-                            : 'Downloading ${result.fileName}...',
+                      backgroundColor: AppColors.onSurface,
+                      behavior: SnackBarBehavior.floating,
+                      content: Row(
+                        children: [
+                          const Icon(Icons.check_circle_rounded, color: AppColors.success, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              savedPath != null
+                                  ? 'Downloaded ${result.fileName} successfully!'
+                                  : 'Downloading ${result.fileName}...',
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -824,12 +843,18 @@ class _ToolActionDialogState extends State<ToolActionDialog> {
             Expanded(
               child: OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  backgroundColor: Colors.white,
+                  foregroundColor: AppColors.onSurface,
+                  padding: const EdgeInsets.symmetric(vertical: 13),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   side: const BorderSide(color: AppColors.outlineVariant),
+                  elevation: 0,
                 ),
-                icon: const Icon(Icons.check, size: 18),
-                label: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+                icon: const Icon(Icons.check, size: 18, color: AppColors.onSurface),
+                label: const Text(
+                  'Done',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: AppColors.onSurface),
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
